@@ -12,6 +12,7 @@ public class Rectangle extends MercurySizeElement<Rectangle> {
 	private @NotNull Color color = Color.BLACK;
 	private int arcWidth = 0;
 	private int arcHeight = 0;
+	private boolean antialiasing = true;
 
 	public Rectangle(@NotNull MercuryValue width, @NotNull MercuryValue height) {
 		width(width);
@@ -37,6 +38,11 @@ public class Rectangle extends MercurySizeElement<Rectangle> {
 		return this;
 	}
 
+	public @NotNull Rectangle antialiasing(boolean value) {
+		this.antialiasing = value;
+		return this;
+	}
+
 	@Override
 	protected @NotNull Rectangle self() {
 		return this;
@@ -49,6 +55,7 @@ public class Rectangle extends MercurySizeElement<Rectangle> {
 		final float finalX = calculateX(finalWidth, parentWidth);
 		final float finalY = calculateY(finalHeight, parentHeight);
 
+		ctx.setAntialiasing(antialiasing);
 		ctx.drawRoundedRect(finalX, finalY, finalWidth, finalHeight, rotation, color, arcWidth, arcHeight);
 		return new DrawResult(finalX, finalY, finalWidth, finalHeight);
 	}

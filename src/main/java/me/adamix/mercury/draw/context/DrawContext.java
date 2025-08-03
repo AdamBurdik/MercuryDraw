@@ -88,7 +88,17 @@ public class DrawContext {
 		});
 	}
 
-	public void drawText(@NotNull String text, float x, float y, float fontSize, int rotation, @NotNull Color color, boolean antialiasing) {
+	public void setAntialiasing(boolean value) {
+		draw(drawable -> {
+			if (value) {
+				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			} else {
+				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+			}
+		});
+	}
+
+	public void drawText(@NotNull String text, float x, float y, float fontSize, int rotation, @NotNull Color color) {
 		draw(drawable -> {
 			drawable.setFont(drawable.getFont().deriveFont(fontSize));
 			FontMetrics metrics = drawable.getFontMetrics();
@@ -96,11 +106,6 @@ public class DrawContext {
 
 			drawable.setColor(color);
 			drawable.rotate(Math.toRadians(rotation), x + (double) metrics.stringWidth(text) / 2, y + (double) metrics.getHeight() / 2);
-			if (antialiasing) {
-				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			} else {
-				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-			}
 
 			drawable.drawString(text, x, y + metrics.getAscent() - metrics.getDescent() + metrics.getLeading());
 		});

@@ -2,6 +2,7 @@ package me.adamix.mercury.draw.elements.text;
 
 import me.adamix.mercury.draw.context.DrawContext;
 import me.adamix.mercury.draw.elements.MercurySizeElement;
+import me.adamix.mercury.draw.elements.shapes.Rectangle;
 import me.adamix.mercury.draw.font.MercuryFont;
 import me.adamix.mercury.draw.result.DrawResult;
 import me.adamix.mercury.draw.value.MercuryValue;
@@ -64,6 +65,11 @@ public class MercuryText extends MercurySizeElement<MercuryText> {
 		return color(new Color(r, g, b, a));
 	}
 
+	public @NotNull MercuryText antialiasing(boolean value) {
+		this.antialiasing = value;
+		return this;
+	}
+
 	@Override
 	public @NotNull DrawResult draw(@NotNull DrawContext ctx, float parentX, float parentY, int parentWidth, int parentHeight) {
 		ctx.setFontSize(fontSize);
@@ -75,7 +81,8 @@ public class MercuryText extends MercurySizeElement<MercuryText> {
 		final float finalY = calculateY(dimension.height, parentHeight);
 
 		ctx.setFont(font.font());
-		ctx.drawText(text, finalX, finalY, fontSize, rotation, color, true);
+		ctx.setAntialiasing(antialiasing);
+		ctx.drawText(text, finalX, finalY, fontSize, rotation, color);
 
 		return new DrawResult(finalX, finalY, dimension.width, dimension.height);
 	}
