@@ -61,14 +61,14 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 
 					if (sizeElement.height() instanceof MercuryValue.Auto) {
 						sizeElement.height(px(childHeight));
-						verticalOffset += childHeight;
-						verticalOffset += gap;
 					}
 					if (sizeElement.width() instanceof MercuryValue.Auto) {
 						sizeElement.width(pct(100));
 					}
 
 					var result = child.draw(drawContext, finalX, finalY, finalWidth, finalHeight);
+					verticalOffset += result.height();
+					verticalOffset += gap;
 				} else {
 					// TODO
 				}
@@ -89,14 +89,14 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 
 					if (sizeElement.width() instanceof MercuryValue.Auto) {
 						sizeElement.width(px(childWidth));
-						horizontalOffset += childWidth;
-						horizontalOffset += gap;
 					}
 					if (sizeElement.height() instanceof MercuryValue.Auto) {
 						sizeElement.height(pct(100));
 					}
 
 					var result = child.draw(drawContext, finalX, finalY, finalWidth, finalHeight);
+					horizontalOffset += result.height();
+					horizontalOffset += gap;
 				} else {
 					// TODO
 				}
