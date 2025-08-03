@@ -55,7 +55,7 @@ public class Rectangle extends MercurySizeElement<Rectangle> {
 		final float finalX = calculateX(finalWidth, parentWidth);
 		final float finalY = calculateY(finalHeight, parentHeight);
 
-		ctx.setAntialiasing(antialiasing);
+		ctx.setHint(RenderingHints.KEY_ANTIALIASING, antialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
 		ctx.drawRoundedRect(finalX, finalY, finalWidth, finalHeight, rotation, color, arcWidth, arcHeight);
 		return new DrawResult(finalX, finalY, finalWidth, finalHeight);
 	}

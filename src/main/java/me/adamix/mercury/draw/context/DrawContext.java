@@ -64,6 +64,7 @@ public class DrawContext {
 		draw(drawable -> {
 			drawable.rotate(Math.toRadians(rotation), x + (double) width / 2, y + (double) height / 2);
 			drawable.setColor(color);
+			drawable.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			drawable.fillRoundRect(Math.round(x), Math.round(y), width, height, arcWidth, arcHeight);
 		});
 	}
@@ -88,13 +89,9 @@ public class DrawContext {
 		});
 	}
 
-	public void setAntialiasing(boolean value) {
+	public void setHint(@NotNull RenderingHints.Key hintKey, @NotNull Object hintValue) {
 		draw(drawable -> {
-			if (value) {
-				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			} else {
-				drawable.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-			}
+			drawable.setRenderingHint(hintKey, hintValue);
 		});
 	}
 

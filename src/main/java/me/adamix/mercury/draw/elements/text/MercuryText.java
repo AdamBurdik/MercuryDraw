@@ -81,7 +81,7 @@ public class MercuryText extends MercurySizeElement<MercuryText> {
 		final float finalY = calculateY(dimension.height, parentHeight);
 
 		ctx.setFont(font.font());
-		ctx.setAntialiasing(antialiasing);
+		ctx.setHint(RenderingHints.KEY_TEXT_ANTIALIASING, antialiasing ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		ctx.drawText(text, finalX, finalY, fontSize, rotation, color);
 
 		return new DrawResult(finalX, finalY, dimension.width, dimension.height);
