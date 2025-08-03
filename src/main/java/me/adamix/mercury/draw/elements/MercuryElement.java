@@ -48,12 +48,12 @@ public abstract class MercuryElement<T extends MercuryElement<T>> {
 
 	protected abstract @NotNull T self();
 
-	protected float calculateX(int width, float parentWidth) {
-		return xPosition.calculate(parentWidth) + alignment.offsetX(width);
+	protected float calculateX(int width, int parentWidth) {
+		return xPosition.calculate(parentWidth) + alignment.offsetX(width, parentWidth);
 	}
 
-	protected float calculateY(int height, float parentHeight) {
-		return yPosition.calculate(parentHeight) + alignment.offsetY(height);
+	protected float calculateY(int height, int parentHeight) {
+		return yPosition.calculate(parentHeight) + alignment.offsetY(height, parentHeight);
 	}
 
 	public abstract @NotNull DrawResult draw(@NotNull DrawContext ctx, float parentX, float parentY, int parentWidth, int parentHeight);
