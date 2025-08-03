@@ -47,7 +47,24 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 		drawContext.drawBackground(background);
 
 		if (direction == MercuryDirection.VERTICAL) {
-			float childHeight = (((float) finalHeight) - gap * (children.size() - 1)) / children.size();
+			// Width without gaps
+			float realHeight = (((float) finalHeight) - gap * (children.size() - 1));
+
+			float unallocatedSpace = realHeight;
+			int autoElementCount = 0;
+
+			// Count how much space is unallocated (For auto)
+			for (MercuryElement<?> child : children) {
+				if (child instanceof MercurySizeElement<?> size) {
+					if (size.height() instanceof MercuryValue.Fixed fixed) {
+						unallocatedSpace -= fixed.calculate(realHeight);
+					} else if (size.height() instanceof MercuryValue.Auto) {
+						autoElementCount++;
+					}
+				}
+			}
+
+			float autoChildHeight = unallocatedSpace / autoElementCount;
 
 			float verticalOffset = 0;
 			for (MercuryElement<?> child : children) {
@@ -60,7 +77,7 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 					}
 
 					if (sizeElement.height() instanceof MercuryValue.Auto) {
-						sizeElement.height(px(childHeight));
+						sizeElement.height(px(autoChildHeight));
 					}
 					if (sizeElement.width() instanceof MercuryValue.Auto) {
 						sizeElement.width(pct(100));
@@ -74,8 +91,25 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 				}
 			}
 		} else {
-			float childWidth = (((float) finalWidth) - gap * (children.size() - 1)) / children.size();
-			System.out.println(childWidth);
+
+			// Width without gaps
+			float realWidth = (((float) finalWidth) - gap * (children.size() - 1));
+
+			float unallocatedSpace = realWidth;
+			int autoElementCount = 0;
+
+			// Count how much space is unallocated (For auto)
+			for (MercuryElement<?> child : children) {
+				if (child instanceof MercurySizeElement<?> size) {
+					if (size.width() instanceof MercuryValue.Fixed fixed) {
+						unallocatedSpace -= fixed.calculate(realWidth);
+					} else if (size.width() instanceof MercuryValue.Auto) {
+						autoElementCount++;
+					}
+				}
+			}
+
+			float autoChildWidth = unallocatedSpace / autoElementCount;
 
 			float horizontalOffset = 0;
 			for (MercuryElement<?> child : children) {
@@ -88,14 +122,14 @@ public class FlexboxContainer extends MercuryContainer<FlexboxContainer> {
 					}
 
 					if (sizeElement.width() instanceof MercuryValue.Auto) {
-						sizeElement.width(px(childWidth));
+						sizeElement.width(px(autoChildWidth));
 					}
 					if (sizeElement.height() instanceof MercuryValue.Auto) {
 						sizeElement.height(pct(100));
 					}
 
 					var result = child.draw(drawContext, finalX, finalY, finalWidth, finalHeight);
-					horizontalOffset += result.height();
+					horizontalOffset += result.width();
 					horizontalOffset += gap;
 				} else {
 					// TODO

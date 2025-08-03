@@ -61,7 +61,7 @@ public class GridContainer extends MercuryContainer<GridContainer> {
 		for (int y = 0; y < rowCount; y++) {
 			FlexboxContainer rowFlexbox = new FlexboxContainer(pct(100), px(rowHeight))
 					.gap(columnGap)
-					.background(0, 0, 255, 255)
+					.background(0, 0, 255, 0)
 					.direction(MercuryDirection.HORIZONTAL)
 				    .y(px(rowOffset));
 			System.out.println("Row: " + rowFlexbox);
