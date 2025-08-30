@@ -53,7 +53,6 @@ public class GridContainer extends MercuryContainer<GridContainer> {
 
 //		float rowHeight = (float) finalHeight / rowCount;
 		float rowHeight = (((float) finalHeight) - rowGap * (rowCount - 1)) / rowCount;
-		System.out.println("row height: " + rowHeight);
 
 		float rowOffset = 0f;
 
@@ -64,7 +63,6 @@ public class GridContainer extends MercuryContainer<GridContainer> {
 					.background(0, 0, 255, 0)
 					.direction(MercuryDirection.HORIZONTAL)
 				    .y(px(rowOffset));
-			System.out.println("Row: " + rowFlexbox);
 
 			for (int x = 0; x < columnCount; x++) {
 				MercuryElement<?> child = children.get(i);
@@ -74,7 +72,6 @@ public class GridContainer extends MercuryContainer<GridContainer> {
 			}
 
 			var result = rowFlexbox.draw(drawContext, finalX, finalY, finalWidth, finalHeight);
-			System.out.println("result: " + result);
 			rowOffset += result.height() + rowGap;
 		}
 
