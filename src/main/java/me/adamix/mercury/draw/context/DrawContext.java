@@ -14,7 +14,6 @@ public class DrawContext {
 
 	public DrawContext(int width, int height) {
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		clear();
 	}
 
 	public void beginDrawing() {
@@ -44,14 +43,6 @@ public class DrawContext {
 			throw new IllegalStateException("DrawContext is not active. Call 'beginDrawing()' before drawing.");
 		}
 		consumer.accept(getDrawable());
-	}
-
-	public void clear() {
-		draw(drawable -> {
-			drawable.setComposite(AlphaComposite.Clear);
-			drawable.fillRect(0, 0, image().getWidth(),  image().getHeight());
-			drawable.setComposite(AlphaComposite.SrcOver);
-		});
 	}
 
 	public void drawBackground(@NotNull Color color) {
