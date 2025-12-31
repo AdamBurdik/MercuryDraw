@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 public class MercuryContainer<T extends MercuryContainer<T>> extends MercurySizeElement<T> {
 	protected final @NotNull List<MercuryElement<?>> children = new LinkedList<>();
-	protected @NotNull Color background = Color.WHITE;
+	protected @NotNull Color background = new Color(0, 0, 0, 0);
 
 	public MercuryContainer(@NotNull MercuryValue width, @NotNull MercuryValue height) {
 		width(width);
