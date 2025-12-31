@@ -13,11 +13,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class DrawableImage extends MercurySizeElement<DrawableImage> {
-	private final @NotNull Path path;
+	private final @NotNull BufferedImage bufferedImage;
 	private boolean resize = false;
 
-	public DrawableImage(@NotNull Path path) {
-		this.path = path;
+	public DrawableImage(@NotNull Path path) throws IOException {
+		this(ImageIO.read(path.toFile()));
+	}
+
+	public DrawableImage(@NotNull BufferedImage bufferedImage) {
+		this.bufferedImage = bufferedImage;
 	}
 
 	@Override
@@ -45,9 +49,9 @@ public class DrawableImage extends MercurySizeElement<DrawableImage> {
 		final float finalY = calculateY(finalHeight, parentHeight);
 
 		try {
-			BufferedImage image = ImageIO.read(path.toFile());
+			BufferedImage image = bufferedImage;
 			if (resize) {
-				image = ImageUtils.resizeImage(image, finalWidth, finalHeight);
+				image = ImageUtils.resizeImage(bufferedImage, finalWidth, finalHeight);
 			}
 
 			ctx.drawImage(image, finalX, finalY, finalWidth, finalHeight, rotation);

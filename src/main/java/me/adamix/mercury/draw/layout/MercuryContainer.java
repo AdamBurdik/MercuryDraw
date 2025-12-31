@@ -12,6 +12,7 @@ import me.adamix.mercury.draw.value.MercuryValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,8 +73,13 @@ public class MercuryContainer<T extends MercuryContainer<T>> extends MercurySize
 		return rect;
 	}
 
-	public @NotNull DrawableImage image(@NotNull Path path) {
+	public @NotNull DrawableImage image(@NotNull Path path) throws IOException {
 		var image = new DrawableImage(path);
+		children.add(image);
+		return image;
+	}
+	
+	public @NotNull DrawableImage image(@NotNull DrawableImage image) {
 		children.add(image);
 		return image;
 	}
