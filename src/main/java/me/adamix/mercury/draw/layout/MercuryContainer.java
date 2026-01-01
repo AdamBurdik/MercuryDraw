@@ -19,13 +19,24 @@ import java.util.List;
 public class MercuryContainer<T extends MercuryContainer<T>> extends MercurySizeElement<T> {
 	protected final @NotNull List<MercuryElement<?>> children = new LinkedList<>();
 	protected @NotNull Color background = new Color(0, 0, 0, 0);
+    protected boolean clip = false;
+    protected int arcWidth = 0;
+    protected int arcHeight = 0;
 
-	public MercuryContainer(@NotNull MercuryValue width, @NotNull MercuryValue height) {
+	public MercuryContainer(@NotNull MercuryValue width, @NotNull MercuryValue height, boolean clip, int arcWidth, int arcHeight) {
 		width(width);
 		height(height);
+        this.clip = clip;
+        this.arcWidth = arcWidth;
+        this.arcHeight = arcHeight;
 	}
 
-	@SuppressWarnings("unchecked")
+    public MercuryContainer(@NotNull MercuryValue width, @NotNull MercuryValue height) {
+        width(width);
+        height(height);
+    }
+
+    @SuppressWarnings("unchecked")
 	@Override
 	protected @NotNull T self() {
 		return (T) this;
@@ -67,6 +78,17 @@ public class MercuryContainer<T extends MercuryContainer<T>> extends MercurySize
 		return container;
 	}
 
+	public @NotNull T clip(boolean clip) {
+		this.clip = clip;
+		return self();
+	}
+
+	public @NotNull T rounded(int arcWidth, int arcHeight) {
+		this.arcWidth = arcWidth;
+		this.arcHeight = arcHeight;
+		return self();
+	}
+
 	public @NotNull Rectangle rect(@NotNull MercuryValue width, @NotNull MercuryValue height) {
 		var rect = new Rectangle(width, height);
 		children.add(rect);
@@ -99,6 +121,17 @@ public class MercuryContainer<T extends MercuryContainer<T>> extends MercurySize
 
 		DrawContext drawContext = new DrawContext(finalWidth, finalHeight);
 		drawContext.beginDrawing();
+
+        if (this.clip) {
+            if (arcWidth > 0 || arcHeight > 0) {
+                // Clip using a rounded rectangle shape
+                drawContext.applyRoundedClip(0, 0, finalWidth, finalHeight, arcWidth, arcHeight);
+            } else {
+                // Standard rectangular clip
+                drawContext.applyClip(0, 0, finalWidth, finalHeight);
+            }
+        }
+
 		drawContext.drawBackground(background);
 
 		for (MercuryElement<?> child : children) {

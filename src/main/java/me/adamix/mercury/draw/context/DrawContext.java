@@ -108,6 +108,15 @@ public class DrawContext {
 		});
 	}
 
+    public void applyClip(int x, int y, int width, int height) {
+        draw(drawable -> drawable.setClip(x, y, width, height));
+    }
+
+    public void applyRoundedClip(int x, int y, int width, int height, int aw, int ah) {
+        Shape roundedRect = new java.awt.geom.RoundRectangle2D.Float(x, y, width, height, aw, ah);
+        draw(drawable -> drawable.setClip(roundedRect));
+    }
+
 	public void endDrawing() {
 		if (drawable != null) {
 			drawable.dispose();
